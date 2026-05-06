@@ -1,90 +1,70 @@
 import streamlit as st
-import pandas as pd
 
-# Configuração da página
+# 1. Configuração da página e Estilo SDG
 st.set_page_config(page_title="QG SDG - Central de Inteligência", layout="wide")
 
-# Inicialização da "Base de Dados" na memória (Session State)
-if 'projetos' not in st.session_state:
-    st.session_state.projetos = []
-
-# Estilo SDG
 st.markdown("""
     <style>
     .main { background-color: #0e1117; color: white; }
-    .stButton>button { width: 100%; border-radius: 5px; background-color: #2e7d32; color: white; }
-    .card { background-color: #1e2130; padding: 20px; border-radius: 10px; border-left: 5px solid #2e7d32; }
+    .stButton>button { width: 100%; border-radius: 5px; height: 3em; background-color: #2e7d32; color: white; }
+    .card { background-color: #1e2130; padding: 20px; border-radius: 10px; border-left: 5px solid #2e7d32; margin-bottom: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
-# Cabeçalho
+# 2. Cabeçalho com o Leão
 col_logo, col_titulo = st.columns([1, 8])
 with col_logo:
     url_leao = "https://drive.google.com/uc?export=view&id=1WsZ3mG3ijizFSwBhwwyZnK_zRJG4bpeV"
     st.image(url_leao, width=100)
 with col_titulo:
     st.title("🛡️ QG SDG - Central de Inteligência")
-    st.caption("Comandante Reinaldo Sena Rodrigues | Gestão de Elite")
+    st.caption("Comandante Reinaldo Sena Rodrigues | Unidade de Elite")
 
-# Menu Lateral
+# 3. O ARSENAL DE MISSÕES (A Barra Lateral que você sentiu falta)
 with st.sidebar:
-    st.title("🎯 Missões")
-    aba = st.radio("Navegação:", ["Dashboard Principal", "Cadastrar Novo Cliente", "Meu Arsenal Individual"])
+    st.title("🎯 Arsenal de Missões")
+    aba = st.radio("Selecione o setor:", [
+        "Dashboard Principal", 
+        "Cadastrar Novo Cliente", 
+        "Loja de Criação (Arsenal)",
+        "Analista de Propostas (99Freelas)"
+    ])
+
+# 4. Lógica das Janelas (O que aparece em cada aba)
 
 if aba == "Dashboard Principal":
-    st.header("📋 Seus Projetos em Andamento")
-    
-    if not st.session_state.projetos:
-        st.info("Nenhum projeto ativo. Vá em 'Cadastrar Novo Cliente' para iniciar sua artilharia.")
-    else:
-        for i, p in enumerate(st.session_state.projetos):
-            with st.expander(f"📁 Cliente: {p['nome']} - {p['status']}"):
-                st.write(f"**Descrição:** {p['desc']}")
-                col1, col2, col3 = st.columns(3)
-                col1.metric("Investimento", f"R$ {p['valor']}")
-                col2.metric("Tempo Estipulado", p['tempo'])
-                col3.write(f"**Ferramentas:** {p['ferramentas']}")
-                if st.button(f"Encerrar Missão {p['nome']}", key=f"btn_{i}"):
-                    st.session_state.projetos.pop(i)
-                    st.rerun()
+    st.header("🏠 Posto de Comando Operacional")
+    c1, c2, c3 = st.columns(3)
+    with c1: st.metric("Status", "QG Online", "100%")
+    with c2: st.metric("Projetos", "Em Organização", "SDG")
+    with c3: st.metric("Renda", "Meta 99Freelas", "Iniciando")
+    st.write("---")
+    st.info("Bem-vindo de volta, Comandante. Selecione uma missão na barra lateral para prosseguir.")
 
 elif aba == "Cadastrar Novo Cliente":
     st.header("🆕 Nova Ordem de Serviço")
-    with st.form("form_cliente"):
-        nome = st.text_input("Nome do Cliente:")
-        desc = st.text_area("O que o cliente precisa? (Descreva o projeto)")
-        valor = st.number_input("Valor do Contrato (R$):", min_value=0)
-        
-        # Simulação de inteligência do Engenheiro
-        st.write("---")
-        st.subheader("Análise Prévia do Engenheiro SDG")
-        if nome:
-            st.warning(f"Atenção Comandante: Para {nome}, recomendo Python + Streamlit para entrega rápida.")
-        
-        tempo = st.selectbox("Tempo estimado:", ["3 dias", "1 semana", "15 dias", "30 dias +"])
-        ferramentas = st.multiselect("Arsenal a ser usado:", ["Python", "MT5 SDK", "Canva", "Google Sites", "OpenAI API", "Replit"])
-        
-        enviar = st.form_submit_button("Lançar Projeto no Painel")
-        
-        if enviar:
-            novo_p = {"nome": nome, "desc": desc, "valor": valor, "tempo": tempo, "ferramentas": ferramentas, "status": "Ativo"}
-            st.session_state.projetos.append(novo_p)
-            st.success(f"Missão {nome} integrada ao QG!")
+    nome = st.text_input("Nome do Cliente:")
+    desc = st.text_area("Descrição do Projeto:")
+    if st.button("Lançar Projeto"):
+        st.success(f"Projeto para {nome} registrado com sucesso!")
 
-elif aba == "Meu Arsenal Individual":
-    st.header("🏗️ Loja de Criação & Arsenal Pessoal")
-    tab1, tab2 = st.tabs(["Meus Indicadores", "Meus E-books"])
+elif aba == "Loja de Criação (Arsenal)":
+    st.header("🏗️ Loja de Criação & Arsenal SDG")
+    t1, t2 = st.tabs(["📊 Robôs & Indicadores", "📚 E-books & Infoprodutos"])
     
-    with tab1:
-        st.write("### 🦈 Super Indicador de Fluxo")
-        st.write("Status: Em desenvolvimento tático.")
-        st.button("Abrir Ambiente de Estudo de Tubarões")
+    with t1:
+        st.markdown("<div class='card'><h4>🦈 Super Indicador de Fluxo</h4><p>Status: 40% (Calibrando Rastro de Tubarões)</p></div>", unsafe_allow_html=True)
+        st.markdown("<div class='card'><h4>🤖 Robô Sniper SDG</h4><p>Status: Ideia em rascunho</p></div>", unsafe_allow_html=True)
         
-    with tab2:
-        st.write("### 📚 Biblioteca de Infoprodutos")
-        st.write("- Centavos de Ouro (V1)")
-        st.write("- Meditação Diária (V1)")
-        st.button("Lançar novo título no Gumroad")
+    with t2:
+        st.markdown("<div class='card'><h4>✅ Centavos de Ouro</h4><p>Status: 100% (Pronto para Venda)</p></div>", unsafe_allow_html=True)
+        st.markdown("<div class='card'><h4>⏳ Meditação 21 Dias</h4><p>Status: 80% (Finalizando Arte)</p></div>", unsafe_allow_html=True)
+
+elif aba == "Analista de Propostas (99Freelas)":
+    st.header("🤖 Inteligência de Vendas")
+    st.write("Cole os requisitos do cliente para gerar uma proposta matadora.")
+    st.text_area("Requisitos do 99Freelas:")
+    st.button("Gerar Estratégia")
 
 st.write("---")
 st.caption("Selo de Qualidade SDG - Segredos dos Grandes © 2026")
