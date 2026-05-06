@@ -1,4 +1,4 @@
-import streamlit as st
+streamlit_app.py.
 
 # Configuração da página SDG
 st.set_page_config(page_title="QG SDG - Central de Inteligência", layout="wide")
