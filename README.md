@@ -1,0 +1,1 @@
+# qg-sdg-inteligencia.
