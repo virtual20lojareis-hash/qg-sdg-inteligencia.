@@ -32,7 +32,7 @@ if aba == "Home":
     st.info("Este é o seu ambiente original onde vamos centralizar todas as suas ferramentas fora da curva.")
     st.write("---")
     
-    # Status das Operações (Como na foto que você gostou)
+    # Status das Operações
     c1, c2, c3 = st.columns(3)
     with c1:
         st.metric("Missão 1", "Móveis Planejados", "Ativo")
