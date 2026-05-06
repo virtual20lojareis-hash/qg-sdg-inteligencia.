@@ -1,0 +1,90 @@
+import streamlit as st
+import pandas as pd
+
+# Configuração da página
+st.set_page_config(page_title="QG SDG - Central de Inteligência", layout="wide")
+
+# Inicialização da "Base de Dados" na memória (Session State)
+if 'projetos' not in st.session_state:
+    st.session_state.projetos = []
+
+# Estilo SDG
+st.markdown("""
+    <style>
+    .main { background-color: #0e1117; color: white; }
+    .stButton>button { width: 100%; border-radius: 5px; background-color: #2e7d32; color: white; }
+    .card { background-color: #1e2130; padding: 20px; border-radius: 10px; border-left: 5px solid #2e7d32; }
+    </style>
+    """, unsafe_allow_html=True)
+
+# Cabeçalho
+col_logo, col_titulo = st.columns([1, 8])
+with col_logo:
+    url_leao = "https://drive.google.com/uc?export=view&id=1WsZ3mG3ijizFSwBhwwyZnK_zRJG4bpeV"
+    st.image(url_leao, width=100)
+with col_titulo:
+    st.title("🛡️ QG SDG - Central de Inteligência")
+    st.caption("Comandante Reinaldo Sena Rodrigues | Gestão de Elite")
+
+# Menu Lateral
+with st.sidebar:
+    st.title("🎯 Missões")
+    aba = st.radio("Navegação:", ["Dashboard Principal", "Cadastrar Novo Cliente", "Meu Arsenal Individual"])
+
+if aba == "Dashboard Principal":
+    st.header("📋 Seus Projetos em Andamento")
+    
+    if not st.session_state.projetos:
+        st.info("Nenhum projeto ativo. Vá em 'Cadastrar Novo Cliente' para iniciar sua artilharia.")
+    else:
+        for i, p in enumerate(st.session_state.projetos):
+            with st.expander(f"📁 Cliente: {p['nome']} - {p['status']}"):
+                st.write(f"**Descrição:** {p['desc']}")
+                col1, col2, col3 = st.columns(3)
+                col1.metric("Investimento", f"R$ {p['valor']}")
+                col2.metric("Tempo Estipulado", p['tempo'])
+                col3.write(f"**Ferramentas:** {p['ferramentas']}")
+                if st.button(f"Encerrar Missão {p['nome']}", key=f"btn_{i}"):
+                    st.session_state.projetos.pop(i)
+                    st.rerun()
+
+elif aba == "Cadastrar Novo Cliente":
+    st.header("🆕 Nova Ordem de Serviço")
+    with st.form("form_cliente"):
+        nome = st.text_input("Nome do Cliente:")
+        desc = st.text_area("O que o cliente precisa? (Descreva o projeto)")
+        valor = st.number_input("Valor do Contrato (R$):", min_value=0)
+        
+        # Simulação de inteligência do Engenheiro
+        st.write("---")
+        st.subheader("Análise Prévia do Engenheiro SDG")
+        if nome:
+            st.warning(f"Atenção Comandante: Para {nome}, recomendo Python + Streamlit para entrega rápida.")
+        
+        tempo = st.selectbox("Tempo estimado:", ["3 dias", "1 semana", "15 dias", "30 dias +"])
+        ferramentas = st.multiselect("Arsenal a ser usado:", ["Python", "MT5 SDK", "Canva", "Google Sites", "OpenAI API", "Replit"])
+        
+        enviar = st.form_submit_button("Lançar Projeto no Painel")
+        
+        if enviar:
+            novo_p = {"nome": nome, "desc": desc, "valor": valor, "tempo": tempo, "ferramentas": ferramentas, "status": "Ativo"}
+            st.session_state.projetos.append(novo_p)
+            st.success(f"Missão {nome} integrada ao QG!")
+
+elif aba == "Meu Arsenal Individual":
+    st.header("🏗️ Loja de Criação & Arsenal Pessoal")
+    tab1, tab2 = st.tabs(["Meus Indicadores", "Meus E-books"])
+    
+    with tab1:
+        st.write("### 🦈 Super Indicador de Fluxo")
+        st.write("Status: Em desenvolvimento tático.")
+        st.button("Abrir Ambiente de Estudo de Tubarões")
+        
+    with tab2:
+        st.write("### 📚 Biblioteca de Infoprodutos")
+        st.write("- Centavos de Ouro (V1)")
+        st.write("- Meditação Diária (V1)")
+        st.button("Lançar novo título no Gumroad")
+
+st.write("---")
+st.caption("Selo de Qualidade SDG - Segredos dos Grandes © 2026")
