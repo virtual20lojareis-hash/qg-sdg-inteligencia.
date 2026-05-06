@@ -1,8 +1,9 @@
 import streamlit as st
 
-# 1. Configuração da página e Estilo SDG
+# Configuração da página SDG
 st.set_page_config(page_title="QG SDG - Central de Inteligência", layout="wide")
 
+# Estilo para manter o padrão Segredos dos Grandes
 st.markdown("""
     <style>
     .main { background-color: #0e1117; color: white; }
@@ -11,16 +12,17 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# 2. Cabeçalho com o Leão
+# Cabeçalho com o Leão SDG
 col_logo, col_titulo = st.columns([1, 8])
 with col_logo:
     url_leao = "https://drive.google.com/uc?export=view&id=1WsZ3mG3ijizFSwBhwwyZnK_zRJG4bpeV"
     st.image(url_leao, width=100)
+
 with col_titulo:
     st.title("🛡️ QG SDG - Central de Inteligência")
-    st.caption("Comandante Reinaldo Sena Rodrigues | Unidade de Elite")
+    st.subheader("Comandante Reinaldo Sena Rodrigues")
 
-# 3. O ARSENAL DE MISSÕES (A Barra Lateral)
+# Menu Lateral de Missões
 with st.sidebar:
     st.title("🎯 Arsenal de Missões")
     aba = st.radio("Selecione o setor:", [
@@ -30,7 +32,6 @@ with st.sidebar:
         "Analista de Propostas (99Freelas)"
     ])
 
-# 4. Lógica das Janelas
 if aba == "Dashboard Principal":
     st.header("🏠 Posto de Comando Operacional")
     c1, c2, c3 = st.columns(3)
@@ -38,36 +39,24 @@ if aba == "Dashboard Principal":
     with c2: st.metric("Projetos", "Em Organização", "SDG")
     with c3: st.metric("Renda", "Meta 99Freelas", "Iniciando")
     st.write("---")
-    st.info("Bem-vindo de volta, Comandante. O QG está pronto para sua próxima ordem.")
+    st.info("Bem-vindo de volta, Comandante. O QG está operacional no Render.")
 
 elif aba == "Cadastrar Novo Cliente":
     st.header("🆕 Nova Ordem de Serviço")
     nome = st.text_input("Nome do Cliente:")
     desc = st.text_area("Descrição do Projeto:")
-    col1, col2 = st.columns(2)
-    valor = col1.number_input("Valor (R$):", min_value=0)
-    tempo = col2.selectbox("Prazo:", ["3 dias", "1 semana", "15 dias", "30 dias"])
     if st.button("Lançar Missão"):
-        st.success(f"Missão para {nome} registrada no banco de dados tático!")
+        st.success(f"Missão para {nome} registrada!")
 
 elif aba == "Loja de Criação (Arsenal)":
     st.header("🏗️ Loja de Criação & Arsenal SDG")
-    t1, t2 = st.tabs(["📊 Robôs & Indicadores", "📚 E-books & Infoprodutos"])
-    
-    with t1:
-        st.markdown("<div class='card'><h4>🦈 Super Indicador de Fluxo</h4><p>Status: 40% (Calibrando Rastro de Tubarões)</p></div>", unsafe_allow_html=True)
-        st.markdown("<div class='card'><h4>🤖 Robô Sniper SDG</h4><p>Status: Fase de Planejamento</p></div>", unsafe_allow_html=True)
-        
-    with t2:
-        st.markdown("<div class='card'><h4>✅ Centavos de Ouro</h4><p>Status: 100% (Pronto para Venda)</p></div>", unsafe_allow_html=True)
-        st.markdown("<div class='card'><h4>⏳ Meditação 21 Dias</h4><p>Status: 80% (Finalizando Arte)</p></div>", unsafe_allow_html=True)
+    st.markdown("<div class='card'><h4>🦈 Super Indicador de Fluxo</h4><p>Status: 40% (Calibrando)</p></div>", unsafe_allow_html=True)
+    st.markdown("<div class='card'><h4>✅ Centavos de Ouro</h4><p>Status: 100% (Pronto)</p></div>", unsafe_allow_html=True)
 
 elif aba == "Analista de Propostas (99Freelas)":
     st.header("🤖 Inteligência de Vendas")
-    st.write("Use este módulo para ganhar projetos no 99Freelas.")
-    requisitos = st.text_area("Cole aqui os requisitos do cliente:")
-    if st.button("Gerar Estratégia de Venda"):
-        st.write("Analisando... Preparando proposta de alto impacto.")
+    st.text_area("Cole os requisitos do cliente aqui:")
+    st.button("Gerar Proposta SDG")
 
 st.write("---")
 st.caption("Selo de Qualidade SDG - Segredos dos Grandes © 2026")
